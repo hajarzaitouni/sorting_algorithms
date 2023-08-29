@@ -5,6 +5,7 @@
  *
  * @array: array of integers
  * @size: the size of the array
+ * Return: the maximum of the array
  */
 
 int max_array(int *array, size_t size)
@@ -24,7 +25,7 @@ int max_array(int *array, size_t size)
 
 /**
  * counting_sort - sorts an array of integers in ascending order
- *              using the Counting sort algorithm
+ *		using the Counting sort algorithm
  *
  * @array: array of integers
  * @size: the size of the array
@@ -67,4 +68,4 @@ void counting_sort(int *array, size_t size)
 
 	free(sort_output);
 	free(count);
-}	
+}

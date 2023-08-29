@@ -1,7 +1,7 @@
 #include "sort.h"
 
 /**
- * Swap_elem - swaps two integers
+ * swap_elem - swaps two integers
  *
  * @a: the first element to swap
  * @b: the second element to swap with
@@ -23,7 +23,7 @@ void swap_elem(int *a, int *b)
  * @low: the first index of the array
  * @upper: the last index of the array
  * @size: the size of the array
- * Return: yhe position of the new partition
+ * Return: the position of the new partition
  */
 
 int partition(int *array, int low, int upper, size_t size)
@@ -72,7 +72,7 @@ void lomuto_sort(int *array, int low, int upper, size_t size)
 
 /**
  * quick_sort - sorts an array of integers in ascending order
- *              using the Quick sort algorithm
+ *		using the Quick sort algorithm
  *
  * @array: array of integers
  * @size: the size of the array
