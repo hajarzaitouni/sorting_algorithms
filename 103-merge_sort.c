@@ -50,6 +50,7 @@ void top_down_merge(int *array, int *output,
  * @low: the start index of the array
  * @high: the last index of the array
  */
+
 void merge_recursive(int *array, int *output, size_t low, size_t high)
 {
 	size_t mid;
