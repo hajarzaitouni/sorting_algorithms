@@ -4,71 +4,63 @@
  * top_down_merge - merge subarrays using top_down merge sort algorithm
  *
  * @array: array of integers
+ * @output: sorted subarray
  * @low: the start index of the array
  * @mid: the middle index of the array
  * @high: the last index of the array
  */
 
-void top_down_merge(int *array, int low, int mid, int high)
+void top_down_merge(int *array, int *output,
+		size_t low, size_t mid, size_t high)
 {
-	int *left, *right;
-	int i, j, k = low;
-	int size1, size2;
+	size_t i, j, k;
 
-	size1 = (mid - low) + 1;
-	size2 = high - mid;
-	left = malloc(sizeof(int) * size1);
-	if (left == NULL)
-		return;
-	right = malloc(sizeof(int) * size2);
-	if (right == NULL)
-		return;
-	for (i = 0; i < size1; i++)
-		left[i] = array[low + i];
-	for (i = 0; i < size2; i++)
-		right[i] = array[mid + 1 + i];
-
-	printf("Merging...\n[left]: ");
-	print_array(left, size1);
+	printf("Merging...\n");
+	printf("[left]: ");
+	print_array(array + low, mid - low);
 	printf("[right]: ");
-	print_array(right, size2);
-
-	i = j = 0;
-	while (i < size1 && j < size2)
+	print_array(array + mid, high - mid);
+	i = low;
+	j = mid;
+	k = 0;
+	while (i < mid && j < high)
 	{
-		if (left[i] <= right[j])
-			array[k++] = left[i++];
+		if (array[i] < array[j])
+			output[k++] = array[i++];
 		else
-			array[k++] = right[j++];
+			output[k++] = array[j++];
 	}
-	while (i < size1)
-		array[k++] = left[i++];
-	while (j < size2)
-		array[k++] = right[j++];
+	while (i < mid)
+		output[k++] = array[i++];
+	while (j < high)
+		output[k++] = array[j++];
+
+	for (i = low, k = 0; i < high; i++)
+		array[i] = output[k++];
 
 	printf("[Done]: ");
-	print_array(array + low, high - low + 1);
-	free(left);
-	free(right);
+	print_array(array + low, high - low);
 }
 
 /**
  * merge_recursive - sorts using merge sort algorithm recursively
  *
  * @array: array of integers
+ * @output: sorted subarray
  * @low: the start index of the array
  * @high: the last index of the array
  */
-void merge_recursive(int *array, int low, int high)
+void merge_recursive(int *array, int *output, size_t low, size_t high)
 {
-	int mid;
+	size_t mid;
 
-	if (low < high)
+	if (low < high - 1)
 	{
 		mid = low + (high - low) / 2;
-		merge_recursive(array, low, mid);
-		merge_recursive(array, mid + 1, high);
-		top_down_merge(array, low, mid, high);
+		merge_recursive(array, output, low, mid);
+		merge_recursive(array, output, mid, high);
+
+		top_down_merge(array, output, low, mid, high);
 	}
 }
 
@@ -82,8 +74,15 @@ void merge_recursive(int *array, int low, int high)
 
 void merge_sort(int *array, size_t size)
 {
+	int *output;
+
 	if (!array || size < 2)
 		return;
 
-	merge_recursive(array, 0, size - 1);
+	output = malloc(sizeof(int) * size);
+	if (output == NULL)
+		return;
+
+	merge_recursive(array, output, 0, size);
+	free(output);
 }
